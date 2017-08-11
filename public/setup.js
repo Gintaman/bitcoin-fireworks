@@ -99,3 +99,20 @@ AFRAME.registerComponent('follow', {
         });;
     }
 });
+
+AFRAME.registerComponent('change-color-on-hover', {
+    schema: {
+        color: {default: 'red'}
+    },
+    init: function() {
+        let data = this.data;
+        let el = this.el;
+        let defaultColor = el.getAttribute('material').color;
+        el.addEventListener('mouseenter', function() {
+            el.setAttribute('color', data.color);
+        });
+        el.addEventListener('mouseleave', function() {
+            el.setAttribute('color', defaultColor);
+        });
+    }
+});
