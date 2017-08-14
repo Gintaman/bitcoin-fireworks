@@ -5,44 +5,11 @@
 	<title></title>
     <script src="aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-	<script src="setup.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/82bd697ef06acf5c4173775abe053d7a499a6722/examples/js/Mirror.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/82bd697ef06acf5c4173775abe053d7a499a6722/examples/js/WaterShader.js"></script>
 </head>
 <body>
-	<a-scene>
-		<a-entity 
-            id="leader"
-            box="width: 0.5; height: 0.25; depth: 1; color: blue"
-            position="0 0 -5">
-        </a-entity>
-        <a-entity
-            id="follower"
-            box="width: 0.5; height: 1; depth: 1; color: orange"
-            position="0 0 -10">
-        </a-entity>
-        <a-box
-            position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"
-            event-set__enter="_event: mouseenter; color: #8FF7FF"
-            event-set__leave="_event: mouseleave; color: #4CC3D9">
-        </a-box>
-        <a-cylinder 
-            position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"
-            event-set__enter="_event: mouseenter; _target: #cylinderText; visible: true"
-            event-set__leave="_event: mouseleave; _target: #cylinderText; visible: false">
-            <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="0 -0.55 0.55"
-                geometry="primitive: plane; width: 1.75" material="color: #333">
-            </a-text>
-        </a-cylinder>
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"
-            event-set__down="_event: mousedown; material.wireframe: true"
-            event-set__up="_event: mouseup; material.wireframe: false"
-            event-set__leave="_event: mouseleave; material.wireframe: false">
-        </a-plane>
-        <a-box color="#EF2D5E" position="0 1 -4" change-color-on-hover="color: blue">
-        </a-box>
-        <a-camera>
-            <a-cursor></a-cursor>
-        </a-camera>
-    </a-scene>
-	<script src="main.js" async=false></script>
+    <div id="container"></div>
+    <script src="ocean.js"></script>
 </body>
 </html>
