@@ -31,7 +31,8 @@ function init() {
 
     scene.add(new THREE.AmbientLight(0x444444));
     let light = new THREE.DirectionalLight(0xffffbb, 1);
-    light.position.set(-1, 1, -1);
+    light.position.set(0, 1500, 0);
+	light.target.position.set(6000, 0, 3000);
     scene.add(light);
 
     waterNormals = new THREE.TextureLoader().load('waternormals.jpg');
@@ -53,6 +54,40 @@ function init() {
     mirrorMesh.add(water);
     mirrorMesh.rotation.x = -Math.PI * 0.5;
     scene.add(mirrorMesh);
+
+	let cubeMap = new THREE.CubeTexture([]);
+	cubeMap.format = THREE.RGBFormat;
+	let loader = new THREE.ImageLoader();
+	loader.load('skyboxsun25degtest.png', function(image) {
+		let getSide = function(x, y) {
+			let size = 1024;
+			let canvas = document.createElement('canvas');
+			canvas.width = size;
+			canvas.height = size;
+			let context = canvas.getContext('2d');
+			context.drawImage(image, -x * size, -y * size);
+			return canvas;
+		};
+		cubeMap.images[0] = getSide(2, 1);
+		cubeMap.images[1] = getSide(0, 1);
+		cubeMap.images[2] = getSide(1, 0);
+		cubeMap.images[3] = getSide(1, 2);
+		cubeMap.images[4] = getSide(1, 1);
+		cubeMap.images[5] = getSide(3, 1);
+		cubeMap.needsUpdate = true;
+	});
+
+	let cubeShader = THREE.ShaderLib['cube'];
+	cubeShader.uniforms['tCube'].value = cubeMap;
+	let skyBoxMaterial = new THREE.ShaderMaterial({
+		fragmentShader: cubeShader.fragmentShader,
+		vertexShader: cubeShader.vertexShader,
+		uniforms: cubeShader.uniforms,
+		depthWrite: false,
+		side: THREE.BackSide
+	});
+	let skyBox = new THREE.Mesh(new THREE.BoxGeometry(1000000, 1000000, 1000000), skyBoxMaterial);
+	scene.add(skyBox);
 }
 
 function animate() {
